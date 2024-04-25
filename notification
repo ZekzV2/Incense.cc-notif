@@ -1,16 +1,3 @@
---[[
-  ⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣤⣤⡀⢀⣀⣠⣀⠀⠀⠀⠀
-⠀⠀⠀⣴⠟⠛⠛⠶⣤⣤⡴⠶⢶⣿⣟⣿⣻⣿⡋⠉⠁⠹⣇⠀⠀⠀
-⠀⠀⠐⣿⠀⠀⠀⠀⠀⠀⠀⠀⣾⡿⣾⣿⣿⡿⣿⣷⣶⣶⣿⡄⠀⠀
-⠀⠀⠀⣿⡖⠀⠀⠀⠀⠀⠀⠀⠘⠿⠷⠿⢿⣽⣷⣿⣿⣯⢿⡟⠀⠀ Scar made this? OH YES HE MADE IT!!.
-⠀⠀⢰⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠹⣿⣽⣾⢿⡅⠀⠀  Scar is the guy who wants credits for this? Nope
-⠀⠀⣾⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⢀⣨⣧⣀⡀  Thanks for using my codes. ~Los Danones son de calidad.~
-⠘⠛⢻⡛⠃⣰⡏⠙⠉⠛⣦⠀⠀⠀⠀⢠⡞⠋⠙⠉⣷⢈⣡⣇⡀⠀
-⠀⠰⠾⣿⣳⠋⠀⠀⠀⠀⡿⠀⣞⣿⠆⢸⡄⠀⠀⠀⠈⢷⣽⠋⠉⠀
-⠀⠀⢠⡼⣇⠀⠀⠀⣠⡾⠁⠀⠀⠀⠀⠀⠻⣤⣀⠀⠀⢘⡏⠳⠀⠀
-⠀⠀⠀⠀⠙⠳⠶⠛⠛⠶⠶⠶⣤⣤⣤⠶⠶⠾⠛⠲⠖⠋⠀⠀
-]]
-
 getgenv().d = "Made by Scar"
 local d = getgenv().d
 
@@ -53,20 +40,28 @@ function CrearDanone(Options)
         ErDanone.Size = 15
         ErDanone.Outline = Danone.Outline 
         ErDanone.Transparency = 1
-        ErDanone.Color = Danone.Color
         ErDanone.Text = Danone.Text
         ErDanone.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
 
+        -- Function to create a color shifting effect
+        local function getColor(t)
+            local speed = 2  -- Speed of color change
+            -- Use sine to cycle through colors
+            return Color3.fromHSV(math.abs(math.sin(t * speed % 360)), 1, 1)
+        end
+
+        local startTime = tick()
         for Danone_Number = 0, 10, Danone.Speed do
             task.wait()
             ErDanone.Position = Vector2.new(ErDanone.Position.X, math.clamp(ErDanone.Position.Y - ((Danone.Speed * 10) * Danone_Number), Camera.ViewportSize.Y/2, math.huge))
-            ErDanone.Transparency = (Danone_Number - Danone.Speed) /10
-            if ErDanone.Position.Y == Camera.ViewportSize.Y/2 and ">~<" and ">^<" then
+            ErDanone.Transparency = (Danone_Number - Danone.Speed) / 10
+            ErDanone.Color = getColor(tick() - startTime)  -- Update color dynamically
+            if ErDanone.Position.Y == Camera.ViewportSize.Y/2 then
                 ErDanone.Transparency = 1
                 break
             end
         end
-        task.wait("Please Cheesecakes" and Danone.Duration)
+        task.wait(Danone.Duration)
         for Danone_Cachondo = 1, 100 do
             task.wait()
             ErDanone.Transparency = ErDanone.Transparency - 0.01
